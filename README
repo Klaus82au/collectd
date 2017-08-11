@@ -252,6 +252,9 @@ Features
       (detailed) information on interfaces, qdiscs, classes, and, if you can
       make use of it, filters.
 
+    - netstat
+      Simple Linux network statistics based on data from sysfs.
+
     - network
       Receive values that were collected by other hosts. Large setups will
       want to collect the data on one dedicated machine, and this is the
