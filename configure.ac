@@ -6494,6 +6494,7 @@ AC_ARG_ENABLE([all-plugins],
 
 m4_divert_once([HELP_ENABLE], [])
 
+
 AC_PLUGIN([aggregation],         [yes],                     [Aggregation plugin])
 AC_PLUGIN([amqp],                [$with_librabbitmq],       [AMQP output plugin])
 AC_PLUGIN([apache],              [$with_libcurl],           [Apache httpd statistics])
@@ -6648,6 +6649,8 @@ AC_PLUGIN([xmms],                [$with_libxmms],           [XMMS statistics])
 AC_PLUGIN([zfs_arc],             [$plugin_zfs_arc],         [ZFS ARC statistics])
 AC_PLUGIN([zone],                [$plugin_zone],            [Solaris container statistics])
 AC_PLUGIN([zookeeper],           [yes],                     [Zookeeper statistics])
+AC_PLUGIN([netstat],         [yes],                     [Network stats plugin])
+
 
 dnl Default configuration file
 # Load either syslog or logfile
@@ -6912,6 +6915,7 @@ AC_MSG_RESULT([  Bindings:])
 AC_MSG_RESULT([    perl  . . . . . . . . $with_perl_bindings])
 AC_MSG_RESULT()
 AC_MSG_RESULT([  Modules:])
+AC_MSG_RESULT([    netstat . . . . . $enable_netstat])
 AC_MSG_RESULT([    aggregation . . . . . $enable_aggregation])
 AC_MSG_RESULT([    amqp    . . . . . . . $enable_amqp])
 AC_MSG_RESULT([    apache  . . . . . . . $enable_apache])

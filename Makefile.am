@@ -498,6 +498,11 @@ liboconfig_la_SOURCES = \
 	src/liboconfig/parser.y
 liboconfig_la_LDFLAGS = -avoid-version $(LEXLIB)
 
+if BUILD_PLUGIN_NETSTAT
+pkglib_LTLIBRARIES += netstat.la
+netstat_la_SOURCES = src/netstat.c
+netstat_la_LDFLAGS = -module -avoid-version
+endif
 
 if BUILD_PLUGIN_AGGREGATION
 pkglib_LTLIBRARIES += aggregation.la
