@@ -909,6 +909,11 @@
 #	IgnoreSelected false
 #</Plugin>
 
+#<Plugin netstat>
+#    NetDirPath "/sys/class/net/"
+#    Statistics "tx_bytes"
+#</Plugin>
+
 @LOAD_PLUGIN_NETWORK@<Plugin network>
 #	# client setup:
 @LOAD_PLUGIN_NETWORK@	Server "ff18::efc0:4a42" "25826"

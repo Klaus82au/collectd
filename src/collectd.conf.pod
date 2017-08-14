@@ -4977,6 +4977,27 @@ specified statistics will not be collected.
 
 =back
 
+
+=head2 Plugin C<netstat>
+
+Netstat plugin can monitor every network device's stats,
+for example collisions, rx/tx- _bytes, -_packets, -errors and so on. 
+
+Example configuration
+
+
+TypesDB     "./types.db.netstat"
+<Plugin netstat>
+    NetDirPath "/sys/class/net/"
+    Statistics "tx_bytes"
+</Plugin>
+
+NetDirPath - path to /net/ directory in sysfs.
+Statistics - target statistics to monitor.
+
+
+
+
 =head2 Plugin C<network>
 
 The Network plugin sends data to a remote instance of collectd, receives data
