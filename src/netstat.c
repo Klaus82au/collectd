@@ -1,5 +1,5 @@
 /**
-     * collectd - src/newplugin.c
+     * collectd - src/netstat.c
      * Copyright (C) 2017  Микола Фарима
      *
      * This program is free software; you can redistribute it and/or modify it
@@ -92,7 +92,7 @@ static int is_dir(const char *path) {
     return S_ISDIR(s.st_mode);
 }
 
-static int newplugin_config(const char *key, const char *value)
+static int netstat_config(const char *key, const char *value)
 {
     if (strcasecmp(key, "NetDirPath") == 0) {
         if (!is_dir(value)){
@@ -102,15 +102,15 @@ static int newplugin_config(const char *key, const char *value)
     } else if (strcasecmp(key, "Statistics") == 0) {
         file = sstrdup(value);
     } else {
-        ERROR("Invalid newplugin config key %s", key);
+        ERROR("Invalid netstat config key %s", key);
         return -1;
     }
     return 0;
 }
 
-static int newplugin_init(void)
+static int netstat_init(void)
 {
-    INFO("Newplugin started");
+    INFO("netstat started");
     DIR           *d;
     if ((d = opendir(dir)) == NULL){
         ERROR("Can't open directory %s", dir);
@@ -128,20 +128,20 @@ static int newplugin_init(void)
     return 0;
 }
 
-static void newplugin_submit(char * devname, gauge_t value){
+static void netstat_submit(char * devname, gauge_t value){
     value_list_t vl = VALUE_LIST_INIT;
 
     vl.values = &(value_t){.gauge = value};
     vl.values_len = 1;
-    sstrncpy(vl.plugin, "newplugin", sizeof(vl.plugin));
+    sstrncpy(vl.plugin, "netstat", sizeof(vl.plugin));
     sstrncpy(vl.type_instance, devname, sizeof(vl.type_instance));
     sstrncpy(vl.type, "newtype", sizeof(vl.type));
     plugin_dispatch_values(&vl);
 }
 
-static int newplugin_shutdown(void)
+static int netstat_shutdown(void)
 {
-    INFO("Newplugin shutdown");
+    INFO("netstat shutdown");
     netdevlist_t *dl;
     dl = netdevlist_head;
     while (dl != NULL) {
@@ -163,7 +163,7 @@ static int newplugin_shutdown(void)
     return 0;
 }
 
-static int newplugin_read(void) {
+static int netstat_read(void) {
     INFO("IT's alive with PID: %d", getpid());
     for (netdevlist_t *dl = netdevlist_head; dl != NULL; dl = dl->next)
     {
@@ -182,26 +182,26 @@ static int newplugin_read(void) {
         }
         dl->value=atoi(buff);
         WARNING("Value: %d", dl->value);
-        newplugin_submit(dl->name, dl->value);
+        netstat_submit(dl->name, dl->value);
         free(dir_stat);
     }
     return 0;
 }
 
-static int newplugin_notification(const notification_t *n,
+static int netstat_notification(const notification_t *n,
                                   user_data_t __attribute__((unused)) *
                                   user_data) {
 
-    DEBUG("NEWPLUGIN NOTIFICATION!!!");
+    DEBUG("netstat NOTIFICATION!!!");
     INFO("Message: %s", n->message);
     return 0;
 }
 
 void module_register(void) {
-    plugin_register_config("newplugin", newplugin_config, config_keys, config_keys_num);
-    plugin_register_read("newplugin", newplugin_read);
-    plugin_register_init("newplugin", newplugin_init);
-    plugin_register_shutdown("newplugin", newplugin_shutdown);
-    plugin_register_notification ("newplugin",
-                                  newplugin_notification, NULL);
+    plugin_register_config("netstat", netstat_config, config_keys, config_keys_num);
+    plugin_register_read("netstat", netstat_read);
+    plugin_register_init("netstat", netstat_init);
+    plugin_register_shutdown("netstat", netstat_shutdown);
+    plugin_register_notification ("netstat",
+                                  netstat_notification, NULL);
 } /* void module_register */
