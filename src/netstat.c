@@ -192,7 +192,6 @@ static int netstat_notification(const notification_t *n,
                                   user_data_t __attribute__((unused)) *
                                   user_data) {
 
-    DEBUG("netstat NOTIFICATION!!!");
     INFO("Message: %s", n->message);
     return 0;
 }
